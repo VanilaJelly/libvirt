@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+
+<html lang = "en">
+<head>
+    <meta charset = "utf-8">
+    <title> search result </title>
+
+        <body>
+
+            <h1> search: {{ domain.name }} </h1>
+
+            <p> {{ domain.response }} </p>
+            <p> The UUID of the domain is {{ domain.uuid }} </p>
+            <p> The OS type of the domain is {{ domain.OStype }} </p>
+            <p> The domain is {{ domain.persistent }} </p>
+            <p> The value of the managed save images flag is {{ domain.flag }} </p>
+            <h5> *hardware informations </h5> 
+            <p> The state of domain is {{ domain.state }}
+            {% if domain.state == "shutoff" %}
+                {% if domain.flag == 1 %}
+                    <form method="post" name = bootform action="/restore">
+                        <input type="hidden" name="domainname" value={{ domain.name }} />
+                        <input type=submit id=restore value="restore"> </p>
+                {% else %}
+                    <form method="post" name = bootform action="/boot">
+                        <input type="hidden" name="domainname" value={{ domain.name }} />
+                        <input type=submit id=boot value="boot"> </p>
+                {% endif %}
+            {% elif domain.state != unknown %}
+                <form method="post" name = saveform action="/save">
+                    <input type="hidden" name="domainname" value={{ domain.name }} />
+                    <input type=submit id=save value="save"> </p>
+            {% endif %}
+            <p> The max memory is {{ domain.hw[1] }} </p>
+            <p> The memory is {{ domain.hw[2] }} </p>
+            <p> The number of cpus is {{ domain.hw[3] }} </p>
+            <p> The cpu time is {{ domain.hw[4] }} </p>
+            <p> the state is {{ domain.state }} </p>
+        </body>
+<html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+
+<html lang = "en">
+<head>
+    <meta charset = "utf-8">
+
+    <title> ncloud internship</title>
+
+
+    	<body>
+
+            <h1> internship - team project </h1>
+
+
+            <h4> List of all domains! </h4>
+
+            <form name=searchd action="/createform" method=POST>
+                <p><input type=submit value=create!></p>
+            </form>
+
+                {% for name in alldomainsname %}
+                <p> {{ name }} </p>
+            {% endfor %}
+
+
+            <form name=searchd action="." method=POST>
+                <p> name of domain: <input type=text name=domn /> <input type=submit value=search></p>
+            </form>
+        </body>
+
+</html>
