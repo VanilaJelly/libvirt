@@ -7,7 +7,7 @@
     <title> ncloud internship</title>
     <style>
 
-    tr:hover{
+    .rows:hover{
         color:blue;
     }
 
@@ -55,7 +55,7 @@
             </th>
         </tr>
         {% for domain in domains %}
-            <tr id="{{domain.name}}">
+            <tr class="rows">
                 <td>
                     {{domain.name}}
                 </td>
@@ -130,9 +130,7 @@
 //     });
 // });
 
-$('.menu li a').bind('click', function(){
-    console.log('a');
-})
+
 
 </script>
 
