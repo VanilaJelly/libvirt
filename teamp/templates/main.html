@@ -91,7 +91,7 @@
     </form>
 
 
-    <ul id="menu">
+    <ul id="menu" style="display:none">
         <li><div>Run</div></li>
         <li><div>Pause</div></li>
         <li><div>Shut Down</div>
@@ -110,27 +110,61 @@
 </body>
 <script>
 
-// $(function(){
-//     $('#pertest, #hoqqq, #zzz').contextMenu({
-//         selector: 'td',
-//         trigger: 'left',
-//         callback: function(key, options) {
-//             var m = "clicked: " + key + " on " + $(this).text();
-//             window.console && console.log(m) || alert(m);
-//         },
-//         items: {
-//             "edit": {name: "Edit"},
-//             "cut": {name: "Cut"},
-//             "copy": {name: "Copy"},
-//             "paste": {name: "Paste"},
-//             "delete": {name: "Delete"},
-//             "sep1": "---------",
-//             "quit": {name: "Quit"}
-//         }
-//     });
-// });
+$(document).click(function(){
+    $('#menu').hide();
+})
+$('.rows').click(function(event){
+    event.stopPropagation();
+    var offset = $(this).offset();
+    $(this).append($('#menu'));
+    $('#menu').css('left', event.pageX);
+    $('#menu').css('top', event.pageY);
+    $('#menu').css('display', 'inline');
+    $('#menu').css('position', 'absolute');
+    $('#menu').show();
+});
 
+$(document).ready(function(){
+    $('#menu').menu({
+        select: function(event, ui){
+            event.stopPropagation();
+            $('#menu').hide();
+            executeCommand(ui.item[0].innerText);
+        }
+    })
+})
 
+function executeCommand(command){
+    switch(command){
+        case "Run":
+            console.log('run');
+            break;
+        case "Clone":
+            console.log('clone');
+            break;
+        case "Pause":
+            console.log('pause');
+            break;
+        case "Migrate":
+            console.log('migrate');
+            break;
+        case "Delete":
+            console.log('delete');
+            break;
+        case "Reboot":
+            console.log('reboot');
+            break;
+        case "Shut Down":
+            console.log('shut down');
+            break;
+        case "Force Reset":
+            console.log('Force Reset');
+            break;
+        case "Force Off":
+            console.log('Force Off');
+            break;
+    }
+}
 
 </script>
 

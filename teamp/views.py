@@ -34,32 +34,10 @@ class Domdb(db.Model):
 #main page
 @app.route("/")
 def main():
-    #
-    # #drop and create db every time
-    # #if not, datas will crush
-    # db.drop_all()
-    # db.create_all()
-    #
-    # conn = libvirt.open('qemu://192.168.122.109/system')
-    # if conn == None:
-    #     return "Connection Failed"
-    #
-    # #all domains, including not running ones
-    # domains = conn.listAllDomains(0)
-    #
-    # domname = []
-    #
-    # for domain in domains:
-    #     domname.append(domain.name())
-    #     dom = Domdb(domain.ID(), domain.name())
-    #     db.session.add(dom)
-    #     db.session.commit()
-    #
-    # conn.close()
-    #
-    # #connect to proj/teamp/templates/main.html
-    # return render_template("main.html", alldomainsname = domname)
-
+    #drop and create db every time
+    #if not, datas will crush
+    db.drop_all()
+    db.create_all()
 
     conn = libvirt.open('qemu://192.168.122.109/system')
     if conn == None:
@@ -96,6 +74,9 @@ def main():
             inf.state = "pmsuspended"
         else:
             inf.state = "unknown"
+        dom = Domdb(domain.ID(), domain.name())
+        db.session.add(dom)
+        db.session.commit()
         returnDomains.append(inf)
 
     conn.close()
@@ -265,7 +246,7 @@ def save():
 
     name = request.form['domainname']
 
-    filename = "/home/ncloud/test/"+str(name) + ".img"
+    filename = "/home/ncloud/test/"+ str(name) + ".img"
 
     conn = libvirt.open('qemu://192.168.122.109/system')
     if conn == None:
