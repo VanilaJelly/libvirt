@@ -5,27 +5,135 @@
     <meta charset = "utf-8">
 
     <title> ncloud internship</title>
+    <style>
+
+    tr:hover{
+        color:blue;
+    }
+
+    </style>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script type="text/javascript" src="{{url_for('static', filename= 'jquery.contextMenu.js') }}"></script>
+    <link rel="stylesheet" href="{{url_for('static', filename= 'contextMenu.css') }}">
+
+    <script>
+    $( function() {
+        $( "#menu" ).menu();
+    } );
+    </script>
+    <style>
+    .ui-menu { width: 150px; }
+    </style>
+</head>
+<body>
+
+    <h1> internship - team project </h1>
 
 
-    	<body>
+    <h4> Domain List </h4>
+    <table border="1px solid black">
+        <tr class="context-menu-one">
+            <th>
+                Name
+            </th>
+            <th>
+                OS
+            </th>
+            <th>
+                UUID
+            </th>
+            <th>
+                Memory
+            </th>
+            <th>
+                Number of CPU
+            </th>
+            <th>
+                State
+            </th>
+        </tr>
+        {% for domain in domains %}
+            <tr id="{{domain.name}}">
+                <td>
+                    {{domain.name}}
+                </td>
+                <td>
+                    {{domain.OStype}}
+                </td>
+                <td>
+                    {{domain.uuid}}
+                </td>
+                <td>
+                    {{domain.hw[1]/1048576}}
+                </td>
+                <td>
+                    {{domain.hw[3]}}
+                </td>
+                <td>
+                    {{domain.state}}
+                </td>
 
-            <h1> internship - team project </h1>
+            </tr>
+        {% endfor %}
+    </table>
+
+    <form name=searchd action="/createform" method=POST>
+
+        <p><input type=submit value=create!></p>
+    </form>
 
 
-            <h4> List of all domains! </h4>
 
-            <form name=searchd action="/createform" method=POST>
-                <p><input type=submit value=create!></p>
-            </form>
-
-                {% for name in alldomainsname %}
-                <p> {{ name }} </p>
-            {% endfor %}
+    <form name=searchd action="/search" method=POST>
+        <p> name of domain: <input type=text name=domn /> <input type=submit value=search></p>
+    </form>
 
 
-            <form name=searchd action="." method=POST>
-                <p> name of domain: <input type=text name=domn /> <input type=submit value=search></p>
-            </form>
-        </body>
+    <ul id="menu">
+        <li><div>Run</div></li>
+        <li><div>Pause</div></li>
+        <li><div>Shut Down</div>
+            <ul>
+                <li><div>Reboot</div></li>
+                <li><div>Shut Down</div></li>
+                <li><div>Force Reset</div></li>
+                <li><div>Force Off</div></li>
+            </ul>
+        </li>
+        <li><div>Clone</div></li>
+        <li><div>Migrate</div></li>
+        <li><div>Delete</div></li>
+    </ul>
+
+</body>
+<script>
+
+// $(function(){
+//     $('#pertest, #hoqqq, #zzz').contextMenu({
+//         selector: 'td',
+//         trigger: 'left',
+//         callback: function(key, options) {
+//             var m = "clicked: " + key + " on " + $(this).text();
+//             window.console && console.log(m) || alert(m);
+//         },
+//         items: {
+//             "edit": {name: "Edit"},
+//             "cut": {name: "Cut"},
+//             "copy": {name: "Copy"},
+//             "paste": {name: "Paste"},
+//             "delete": {name: "Delete"},
+//             "sep1": "---------",
+//             "quit": {name: "Quit"}
+//         }
+//     });
+// });
+
+$('.menu li a').bind('click', function(){
+    console.log('a');
+})
+
+</script>
 
 </html>

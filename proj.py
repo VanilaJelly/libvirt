@@ -1,4 +1,4 @@
-from teamp import app
+from teamp import app, db
 import sys
 import libvirt
 

@@ -34,77 +34,34 @@ class Domdb(db.Model):
 #main page
 @app.route("/")
 def main():
-    #
-    # #drop and create db every time
-    # #if not, datas will crush
-    # db.drop_all()
-    # db.create_all()
-    #
-    # conn = libvirt.open('qemu://192.168.122.109/system')
-    # if conn == None:
-    #     return "Connection Failed"
-    #
-    # #all domains, including not running ones
-    # domains = conn.listAllDomains(0)
-    #
-    # domname = []
-    #
-    # for domain in domains:
-    #     domname.append(domain.name())
-    #     dom = Domdb(domain.ID(), domain.name())
-    #     db.session.add(dom)
-    #     db.session.commit()
-    #
-    # conn.close()
-    #
-    # #connect to proj/teamp/templates/main.html
-    # return render_template("main.html", alldomainsname = domname)
 
+    #drop and create db every time
+    #if not, datas will crush
+    db.drop_all()
+    db.create_all()
 
     conn = libvirt.open('qemu://192.168.122.109/system')
     if conn == None:
         return "Connection Failed"
 
-
+    #all domains, including not running ones
     domains = conn.listAllDomains(0)
-    returnDomains = []
+
+    domname = []
+
     for domain in domains:
-        inf = Domaininf()
-        inf.name = domain.name()
-        dom = conn.lookupByName(domain.name())
-        if id == -1:
-            inf.response = "The domain is not running"
-        else:
-            inf.response = "The ID of the domain is " + str(id)
-        inf.uuid = dom.UUIDString()
-        inf.OStype = dom.OSType()
-        #hardware informations
-        inf.hw = dom.info()
-        if inf.hw[0] == libvirt.VIR_DOMAIN_NOSTATE:
-            inf.state = "nostate"
-        elif inf.hw[0] == libvirt.VIR_DOMAIN_RUNNING:
-            inf.state = "running"
-        elif inf.hw[0] == libvirt.VIR_DOMAIN_BLOCKED:
-            inf.state = "blocked"
-        elif inf.hw[0] == libvirt.VIR_DOMAIN_PAUSED:
-            inf.state = "paused"
-        elif inf.hw[0] == libvirt.VIR_DOMAIN_SHUTOFF:
-            inf.state = "shutoff"
-        elif inf.hw[0] == libvirt.VIR_DOMAIN_CRASHED:
-            inf.state = "crashed"
-        elif inf.hw[0] == libvirt.VIR_DOMAIN_PMSUSPENDED:
-            inf.state = "pmsuspended"
-        else:
-            inf.state = "unknown"
-        returnDomains.append(inf)
+        domname.append(domain.name())
+        dom = Domdb(domain.ID(), domain.name())
+        db.session.add(dom)
+        db.session.commit()
 
     conn.close()
 
-    return render_template("main.html", domains = returnDomains)
-
+    #connect to proj/teamp/templates/main.html
+    return render_template("main.html", alldomainsname = domname)
 
 #response to search
-@app.route("/search", methods=['POST'])
+@app.route("/", methods=['POST'])
 def response():
 
     conn = libvirt.open('qemu://192.168.122.109/system')

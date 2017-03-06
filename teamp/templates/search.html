@@ -18,9 +18,9 @@
             <p> The state of domain is {{ domain.state }}
             {% if domain.state == "shutoff" %}
                 {% if domain.flag == 1 %}
-                    <form method="post" name = bootform action="/restore">
-                        <input type="hidden" name="domainname" value={{ domain.name }} />
-                        <input type=submit id=restore value="restore"> </p>
+                <form method="post" name = bootform action="/restore">
+                    <input type="hidden" name="domainname" value={{ domain.name }} />
+                    <input type=submit id=restore value="restore"> </form></p>
                 {% else %}
                     <form method="post" name = bootform action="/boot">
                         <input type="hidden" name="domainname" value={{ domain.name }} />
@@ -31,7 +31,7 @@
                     <input type="hidden" name="domainname" value={{ domain.name }} />
                     <input type=submit id=save value="save"> </p>
             {% endif %}
-            <p> The max memory is {{ domain.hw[1] }} </p>
+            <p> the max memory is {{ domain.hw[1] }} </p>
             <p> The memory is {{ domain.hw[2] }} </p>
             <p> The number of cpus is {{ domain.hw[3] }} </p>
             <p> The cpu time is {{ domain.hw[4] }} </p>

@@ -1,5 +1,5 @@
 <domain type='qemu' id='4'>
-	<name>tretest</name>
+	<name>qwerty</name>
 	<memory unit='KiB'>1048576</memory>	<currentmemory unit='KiB'>1048576</currentmemory>	<vcpu placement='static'>1</vcpu>
 	<resource>
     	<partition>/machine</partition>
