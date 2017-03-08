@@ -39,7 +39,7 @@
                 Name
             </th>
             <th>
-                OS
+                Architecture
             </th>
             <th>
                 UUID
@@ -49,6 +49,9 @@
             </th>
             <th>
                 Number of CPU
+            </th>
+            <th>
+                OS
             </th>
             <th>
                 State
@@ -72,6 +75,9 @@
                     {{domain.hw[3]}}
                 </td>
                 <td>
+                    Ubuntu 16.04.2
+                </td>
+                <td>
                     {{domain.state}}
                 </td>
 
@@ -84,12 +90,8 @@
         <p><input type=submit value=create!></p>
     </form>
 
-
-
-    <form name=searchd action="/search" method=POST>
-        <p> name of domain: <input type=text name=domn /> <input type=submit value=search></p>
-    </form>
-
+    <iframe id="frame" name="frame" style="width:800px;height:600px;display:none;">
+    </iframe>
 
     <ul id="menu" style="display:none">
         <li><div>Run</div></li>
@@ -112,7 +114,9 @@
 
 $(document).click(function(){
     $('#menu').hide();
-})
+    $('#frame').hide();
+});
+
 $('.rows').click(function(event){
     event.stopPropagation();
     var offset = $(this).offset();
@@ -122,6 +126,16 @@ $('.rows').click(function(event){
     $('#menu').css('display', 'inline');
     $('#menu').css('position', 'absolute');
     $('#menu').show();
+    $.ajax({
+        url:'/search',
+        data: {domn : $(this)[0].childNodes[1].innerText},
+        type:'post',
+        success: function(e){
+            $('#frame').show();
+            top.frames['frame'].document.body.innerHTML = e;
+        }
+    });
+
 });
 
 $(document).ready(function(){
