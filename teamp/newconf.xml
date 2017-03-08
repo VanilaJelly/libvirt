@@ -1,11 +1,11 @@
 <domain type='qemu' id='4'>
-	<name>sdfsdf</name>
-	<memory unit='KiB'>2097152</memory>	<currentmemory unit='KiB'>2097152</currentmemory>	<vcpu placement='static'>1</vcpu>
+	<name>vm2</name>
+	<memory unit='KiB'>1048576</memory>	<currentmemory unit='KiB'>1048576</currentmemory>	<vcpu placement='static'>1</vcpu>
 	<resource>
     	<partition>/machine</partition>
     </resource>
     <os>
-		<type arch='i686' machine='pc-i440fx-xenial'>hvm</type>
+		<type arch='x86_64' machine='pc-i440fx-xenial'>hvm</type>
     	<boot dev='hd'/>
     </os>
     <features>
@@ -20,6 +20,10 @@
     	<timer name='pit' tickpolicy='delay'/>
     	<timer name='hpet' present='no'/>
     </clock>
+	<disk type='file' device='cdrom'>
+		<source file='/var/lib/libvirt/images/ubuntu.iso'/>
+		<target dev='hdc' bus='ide'/>
+	</disk>
     <on_poweroff>destroy</on_poweroff>
     <on_reboot>restart</on_reboot>
     <on_crash>restart</on_crash>

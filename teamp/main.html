@@ -90,7 +90,13 @@
         <p><input type=submit value=create!></p>
     </form>
 
-    <iframe id="frame" name="frame" style="width:800px;height:600px;display:none;">
+
+
+    <form name=searchd action="/search" method=POST>
+        <p> name of domain: <input type=text name=domn /> <input type=submit value=search></p>
+    </form>
+
+    <iframe src="../templates/search.html">
     </iframe>
 
     <ul id="menu" style="display:none">
@@ -114,7 +120,6 @@
 
 $(document).click(function(){
     $('#menu').hide();
-    $('#frame').hide();
 })
 $('.rows').click(function(event){
     event.stopPropagation();
@@ -125,15 +130,6 @@ $('.rows').click(function(event){
     $('#menu').css('display', 'inline');
     $('#menu').css('position', 'absolute');
     $('#menu').show();
-    $.ajax({
-        url:'/search',
-        data: {domn : $(this)[0].childNodes[1].innerText},
-        type:'post',
-        success: function(e){
-            $('#frame').show();
-            top.frames['frame'].document.body.innerHTML = e;
-        }
-    });
 
 });
 

@@ -22,6 +22,10 @@
     	<timer name='pit' tickpolicy='delay'/>
     	<timer name='hpet' present='no'/>
     </clock>
+	<disk type='file' device='cdrom'>
+		<source file='/var/lib/libvirt/images/ubuntu.iso'/>
+		<target dev='hdc' bus='ide'/>
+	</disk>
     <on_poweroff>destroy</on_poweroff>
     <on_reboot>restart</on_reboot>
     <on_crash>restart</on_crash>

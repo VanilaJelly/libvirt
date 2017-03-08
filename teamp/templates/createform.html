@@ -30,25 +30,30 @@
         <h1> Create Domain </h1>
 
         <form name=created action="/create" onsubmit="return checkname()" method="POST">
-            <p> domain name  <input type=text name=name /> </p>
-            <p> number of cpu <select name=ncpu />
+            <p> Domain name  <input type=text name=name /> </p>
+            <p> Number of cpu <select name=ncpu >
                                 <option value=1> 1cpu </option>
                                 <option value=2> 2cpu </option>
                               </select>
             </p>
-            <p> os type <select name=ostype />
+            <p> Architecture <select name=ostype >
                                 <option value=i686> i686 </option>
                                 <option value=x86_64> x86_64 </option>
                         </select>
             </p>
-            <p> memory <select name=mem />
+            <p> Memory <select name=mem >
                                 <option value=1048576> 1GB </option>
                                 <option value=524288> 0.5GB </option>
                         </select>
             </p>
-            <p> persistency <select name=pers />
+            <p> Persistency <select name=pers >
                                 <option value=0> transient </option>
                                 <option value=1> persistent </option>
+                        </select>
+            </p>
+            <p> OS <select name=os />
+                                <option value=0> Ubuntu 16.04.2 </option>
+                        </select>
             </p>
             <p><input type=submit value=create /></p>
     </body>

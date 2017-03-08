@@ -34,6 +34,7 @@ class Domdb(db.Model):
 #main page
 @app.route("/")
 def main():
+
     #drop and create db every time
     #if not, datas will crush
     db.drop_all()
@@ -46,6 +47,7 @@ def main():
 
     domains = conn.listAllDomains(0)
     returnDomains = []
+
     for domain in domains:
         inf = Domaininf()
         inf.name = domain.name()
@@ -54,8 +56,10 @@ def main():
             inf.response = "The domain is not running"
         else:
             inf.response = "The ID of the domain is " + str(id)
+
         inf.uuid = dom.UUIDString()
         inf.OStype = dom.OSType()
+
         #hardware informations
         inf.hw = dom.info()
         if inf.hw[0] == libvirt.VIR_DOMAIN_NOSTATE:
@@ -151,8 +155,8 @@ def response():
             inf.persistent = "error occured"
 
     conn.close()
-
-    return render_template("search.html", domain = inf)
+    iframe = '//10.64.139.237/search'
+    return render_template("search.html", domain = inf, iframe = iframe)
 
 
 @app.route("/boot", methods=['POST'])
@@ -274,11 +278,12 @@ def restore():
 
     name = request.form['domainname']
 
-    filename = "/home/ncloud/test/"+str(name) + ".img"
 
     conn = libvirt.open('qemu://192.168.122.109/system')
     if conn == None:
         return "Connection Failed"
+
+    filename = "/home/ncloud/test/"+str(name) + ".img"
 
     id = conn.restore(filename)
     if id< 0:
