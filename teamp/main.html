@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+
+<html lang = "en">
+<head>
+    <meta charset = "utf-8">
+
+    <title> ncloud internship</title>
+    <style>
+
+    .rows:hover{
+        color:blue;
+    }
+
+    </style>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script type="text/javascript" src="{{url_for('static', filename= 'jquery.contextMenu.js') }}"></script>
+    <link rel="stylesheet" href="{{url_for('static', filename= 'contextMenu.css') }}">
+
+    <script>
+    $( function() {
+        $( "#menu" ).menu();
+    } );
+    </script>
+    <style>
+    .ui-menu { width: 150px; }
+    </style>
+</head>
+<body>
+
+    <h1> internship - team project </h1>
+
+
+    <h4> Domain List </h4>
+    <table border="1px solid black">
+        <tr class="context-menu-one">
+            <th>
+                Name
+            </th>
+            <th>
+                Architecture
+            </th>
+            <th>
+                UUID
+            </th>
+            <th>
+                Memory
+            </th>
+            <th>
+                Number of CPU
+            </th>
+            <th>
+                OS
+            </th>
+            <th>
+                State
+            </th>
+        </tr>
+        {% for domain in domains %}
+            <tr class="rows">
+                <td>
+                    {{domain.name}}
+                </td>
+                <td>
+                    {{domain.OStype}}
+                </td>
+                <td>
+                    {{domain.uuid}}
+                </td>
+                <td>
+                    {{domain.hw[1]/1048576}}
+                </td>
+                <td>
+                    {{domain.hw[3]}}
+                </td>
+                <td>
+                    Ubuntu 16.04.2
+                </td>
+                <td>
+                    {{domain.state}}
+                </td>
+
+            </tr>
+        {% endfor %}
+    </table>
+
+    <form name=searchd action="/createform" method=POST>
+
+        <p><input type=submit value=create!></p>
+    </form>
+
+    <iframe id="frame" name="frame" style="width:800px;height:600px;display:none;">
+    </iframe>
+
+    <ul id="menu" style="display:none">
+        <li><div>Run</div></li>
+        <li><div>Pause</div></li>
+        <li><div>Shut Down</div>
+            <ul>
+                <li><div>Reboot</div></li>
+                <li><div>Shut Down</div></li>
+                <li><div>Force Reset</div></li>
+                <li><div>Force Off</div></li>
+            </ul>
+        </li>
+        <li><div>Clone</div></li>
+        <li><div>Migrate</div></li>
+        <li><div>Delete</div></li>
+    </ul>
+
+</body>
+<script>
+
+$(document).click(function(){
+    $('#menu').hide();
+    $('#frame').hide();
+});
+
+$('.rows').click(function(event){
+    event.stopPropagation();
+    var offset = $(this).offset();
+    $(this).append($('#menu'));
+    $('#menu').css('left', event.pageX);
+    $('#menu').css('top', event.pageY);
+    $('#menu').css('display', 'inline');
+    $('#menu').css('position', 'absolute');
+    $('#menu').show();
+    $.ajax({
+        url:'/search',
+        data: {domn : $(this)[0].childNodes[1].innerText},
+        type:'post',
+        success: function(e){
+            $('#frame').show();
+            top.frames['frame'].document.body.innerHTML = e;
+        }
+    });
+
+});
+
+$(document).ready(function(){
+    $('#menu').menu({
+        select: function(event, ui){
+            event.stopPropagation();
+            $('#menu').hide();
+            executeCommand(ui.item[0].innerText);
+        }
+    })
+})
+
+function executeCommand(command){
+    switch(command){
+        case "Run":
+            console.log('run');
+            break;
+        case "Clone":
+            console.log('clone');
+            break;
+        case "Pause":
+            console.log('pause');
+            break;
+        case "Migrate":
+            console.log('migrate');
+            break;
+        case "Delete":
+            console.log('delete');
+            break;
+        case "Reboot":
+            console.log('reboot');
+            break;
+        case "Shut Down":
+            console.log('shut down');
+            break;
+        case "Force Reset":
+            console.log('Force Reset');
+            break;
+        case "Force Off":
+            console.log('Force Off');
+            break;
+    }
+}
+
+</script>
+
+</html>
